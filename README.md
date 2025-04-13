@@ -1,14 +1,13 @@
-# comparescript 📄🔍
-A small utility package for comparing two scripts' variables that have same names
-
-**scriptVarCompare** is an R package designed to **compare variables** across two R scripts — when those scripts define **variables with the same names**. It is built for use cases where user-provided scripts are evaluated dynamically, and the goal is to detect whether variables (e.g., data frames, vectors, lists) are identical between the scripts.
+# comparescript
+**comparescript** is an R package designed to **compare variables** across two R scripts — when those scripts define **variables with the same names**.
+It is built to detect whether variables (e.g., data frames, vectors, lists) are identical between the scripts evaluated dynamically.
 
 ---
 
 ## ✅ Current Features
 
-- 📂 **Load and isolate scripts in separate environments**  
-  Scripts are evaluated into independent environments, so same-named variables do not overwrite each other.
+- 📂 **Scripts loaded and evaluated in separate environments**  
+  Same-named variables do not overwrite.
 
 - 🔍 **Compare variables across environments**  
   Supports `identical()` comparison across a user-defined set of variables (regardless of type).
@@ -17,10 +16,9 @@ A small utility package for comparing two scripts' variables that have same name
   Messages, warnings, and console output from user scripts are suppressed for a clean experience.
 
 - 🚫 **Script preprocessing**  
-  Optionally strips installation-related calls like `install.packages()` and `remotes::install_*()` before evaluation.
-
-- 🧪 **Testing-friendly**  
-  Evaluation is skipped during `R CMD check` to avoid failures caused by `library()` calls to undeclared packages.
+  Strips installation-related calls like `install.packages()` before evaluation.
+  This way, the evaluation of scripts presumes the required packages are already installed.
+  If not, an expected error is thrown from the respective library call.
 
 ---
 
@@ -44,11 +42,4 @@ A small utility package for comparing two scripts' variables that have same name
 ---
 
 ## 🔄 Example Workflow
-
-```r
-library(scriptVarCompare)
-
-env1 <- load_script("script_a.R")
-env2 <- load_script("script_b.R")
-
-compare_variables(c("data", "results"), env1, env2)
+TO BE ADDED
