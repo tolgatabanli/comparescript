@@ -42,10 +42,26 @@ test_that("A fully wrong assignment (except data-reading and example manual_tbl)
 })
 
 # Error messages
-test_that("A variable that does not exist can be detected", {
+test_that("Error: Given variables should exist in both scripts.", {
           expect_error(compare_variables("../example_scripts/reference.R",
                                          "../example_scripts/student_full_wrong.R",
                                          c("wrong_variable")),
                        regexp = "Given variables should exist")
   }
+)
+
+test_that("Error: Number of variables and weights are not equal!", {
+  expect_error(compare_variables("../example_scripts/reference.R",
+                                 "../example_scripts/student_full_wrong.R",
+                                 c("summarized_income"), c(1,2,3)),
+               regexp = "Number of variables and weights")
+  }
+)
+
+test_that("Warning: There is a zero point assigned", {
+  expect_warning(compare_variables("../example_scripts/reference.R",
+                                 "../example_scripts/student_full_wrong.R",
+                                 c("summarized_income"), c(0)),
+               regexp = "zero point")
+}
 )
