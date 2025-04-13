@@ -17,7 +17,9 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
   
   if(missing(variables_to_compare)) {
     variables_to_compare <- intersect(vars1, vars2)
-  } # TODO: check names exist
+  } else if(!all(variables_to_compare %in% vars1) || !all(variables_to_compare %in% vars1)) {
+    stop("Given variables should exist in both scripts.")
+  }
   
   if(missing(variable_weights)) {
     variable_weights <- rep(1, length(variables_to_compare))
@@ -42,7 +44,6 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
       0
     }
   })
-  
   return(comparison_results)
 }
 
