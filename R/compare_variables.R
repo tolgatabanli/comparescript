@@ -38,7 +38,7 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
     var2_value <- get(var, envir = env2)
     
     # If like data frame, cast as df and remove row names
-    if (inherits(var1_value, "data.frame") || inherits(var1_value, "tbl_df")){
+    if (inherits(var1_value, "data.frame")){
       var1_value <- normalize_df(var1_value)
       var2_value <- normalize_df(var2_value)
     }
