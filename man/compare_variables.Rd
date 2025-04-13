@@ -4,7 +4,7 @@
 \alias{compare_variables}
 \title{compare_variables}
 \usage{
-compare_variables(script1, script2, variables_to_compare)
+compare_variables(script1, script2, variables_to_compare, variable_weights)
 }
 \arguments{
 \item{script1}{}
@@ -12,7 +12,7 @@ compare_variables(script1, script2, variables_to_compare)
 \item{script2}{}
 }
 \value{
-a list
+a vector of numericals corresponding to points assigned to each variable (1 each if no weights given)
 }
 \description{
 compare_variables
