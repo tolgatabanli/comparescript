@@ -23,7 +23,12 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
   
   if(missing(variable_weights)) {
     variable_weights <- rep(1, length(variables_to_compare))
-  } # TODO: check lengths are same
+  } else if(length(variable_weights) != length(variables_to_compare)) {
+    stop("Number of variables and weights are not equal!")
+  }
+  if (0 %in% variable_weights) {
+    warning("There is a zero point assigned")
+  }
   
   names(variable_weights) <- variables_to_compare
   
