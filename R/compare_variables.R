@@ -34,7 +34,9 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
     }
     
     if (identical(var1_value, var2_value)) {
-      return(variable_weights[var])
+      unname(variable_weights[var])
+    } else {
+      0
     }
   })
   
@@ -56,8 +58,21 @@ source_script_into_env <- function(path_to_script) {
   }
   
   env <- new.env()
-  eval(parse(text = lines), envir = env)
+  eval_quiet(lines, envir = env)
   return(env)
+}
+
+eval_quiet <- function(code_lines, envir) {
+    suppressMessages(
+      suppressWarnings(
+        invisible(
+          capture.output(
+            eval(parse(text = code_lines), envir = envir),
+            type = "output"
+          )
+        )
+      )
+    )
 }
 
 normalize_df <- function(df) {
