@@ -27,7 +27,7 @@ compare_variables <- function(script1, script2, variables_to_compare, variable_w
     stop("Number of variables and weights are not equal!")
   }
   if (0 %in% variable_weights) {
-    warning("There is a zero point assigned")
+    warning("There is a zero point assigned.")
   }
   
   names(variable_weights) <- variables_to_compare
