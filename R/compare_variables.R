@@ -1,9 +1,12 @@
 #' compare_variables
 #'
-#' @param script1 
-#' @param script2 
+#' @param script1 A path to a script (reference)
+#' @param script2 A path to another script (to test)
 #'
 #' @returns a vector of numericals corresponding to points assigned to each variable (1 each if no weights given)
+#' @examples
+#'   compare_variables("reference.R", "student_assignment.R")
+#'   compare_variables("reference.R", "student_assignment.R", c("var1, var2"), c(2, 1))
 #' @export
 compare_variables <- function(script1, script2, variables_to_compare, variable_weights) {
   env1 <- source_script_into_env(script1)
