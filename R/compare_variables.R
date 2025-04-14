@@ -8,16 +8,20 @@
 #'   compare_variables("reference.R", "student_assignment.R")
 #'   compare_variables("reference.R", "student_assignment.R", c("var1, var2"), c(2, 1))
 #' @export
-compare_variables <- function(reference, student, variables_to_compare, variable_weights) {
-  env1 <- source_script_into_env(reference)
-  env2 <- source_script_into_env(student)
+compare_variables <- function(reference, student, variables_to_compare, variable_weights,
+                              ..., return_expected = FALSE) {
+  wrapr::stop_if_dot_args(substitute(list(...)), "compare_variables, dot args")
   
-  vars1 <- ls(env1)
-  vars2 <- ls(env2)
+  
+  ref_env <- source_script_into_env(reference)
+  student_env <- source_script_into_env(student)
+  
+  vars_ref <- ls(ref_env)
+  vars_student <- ls(student_env)
   
   if(missing(variables_to_compare)) {
-    variables_to_compare <- intersect(vars1, vars2)
-  } else if(!all(variables_to_compare %in% vars1) || !all(variables_to_compare %in% vars1)) {
+    variables_to_compare <- intersect(vars_ref, vars_student)
+  } else if(!all(variables_to_compare %in% vars_ref) || !all(variables_to_compare %in% vars_student)) {
     stop("Given variables should exist in both scripts.")
   }
   
@@ -25,8 +29,7 @@ compare_variables <- function(reference, student, variables_to_compare, variable
     variable_weights <- rep(1, length(variables_to_compare))
   } else if(length(variable_weights) != length(variables_to_compare)) {
     stop("Number of variables and weights are not equal!")
-  }
-  if (0 %in% variable_weights) {
+  } else if (0 %in% variable_weights) {
     warning("There is a zero point assigned.")
   }
   
@@ -34,18 +37,21 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   
   comparison_results <- sapply(variables_to_compare,
                                function(var) {
-    var1_value <- get(var, envir = env1)
-    var2_value <- get(var, envir = env2)
+    ref_val <- get(var, envir = ref_env)
+    student_val <- get(var, envir = student_env)
     
     # If like data frame, cast as df and remove row names
-    if (inherits(var1_value, "data.frame")){
-      var1_value <- normalize_df(var1_value)
-      var2_value <- normalize_df(var2_value)
+    if (inherits(ref_val, "data.frame")){
+      ref_val <- normalize_df(ref_val)
+      student_val <- normalize_df(student_val)
     }
     
-    if (identical(var1_value, var2_value)) {
+    if (identical(ref_val, student_val)) {
       unname(variable_weights[var])
     } else {
+      if (return_expected) {
+        
+      }
       0
     }
   })
