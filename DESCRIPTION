@@ -10,7 +10,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
-    testthat (>= 3.0.0)
-    wrapr
+    testthat (>= 3.0.0),
+    wrapr,
     purrr
 Config/testthat/edition: 3
