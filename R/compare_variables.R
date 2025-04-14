@@ -7,9 +7,9 @@
 #' @param return_expected If a summary table with expected and actual scores should be returned. (See Value)
 #'
 #' @returns
-#'  If `return_expected = FALSE` A vector of numericals corresponding to points assigned to each variable (1 each if no weights given).
-#'  If `return_expected = TRUE` A matrix with colnames as "student", "expected" and "score".
-#'  Complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
+#'  If `return_expected = FALSE` A list of numerics corresponding to points assigned to each variable (1 each if no weights given).
+#'  If `return_expected = TRUE` A data frame with colnames "student", "expected" and "score";
+#'  complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
 #' 
 #' @examples
 #'   compare_variables("reference.R", "student_assignment.R")
@@ -42,7 +42,7 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   
   names(variable_weights) <- variables_to_compare
   
-  comparison_results <- sapply(variables_to_compare,
+  comparison_results <- lapply(variables_to_compare,
                                function(var) {
     ref_val <- get(var, envir = ref_env)
     student_val <- get(var, envir = student_env)
@@ -68,7 +68,9 @@ compare_variables <- function(reference, student, variables_to_compare, variable
     }
   })
   if (return_expected) {# cols as student, expected, score
-    comparison_results <- t(comparison_results)
+    df <- data.frame()
+    comparison_results <- purrr::reduce(comparison_results, rbind, .init = df)
+    rownames(comparison_results) <- variables_to_compare
   }
   return(comparison_results)
 }
