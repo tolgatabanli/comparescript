@@ -1,9 +1,16 @@
 #' compare_variables
 #'
-#' @param script1 A path to a script (reference)
-#' @param script2 A path to another script (to test)
+#' @param reference A path to a script (reference)
+#' @param student A path to another script (to test)
+#' @param variables_to_compare Optional, selected variables to compare
+#' @param variable_weights Weights to assess the variables. 1 point by default for each variable.
+#' @param return_expected If a summary table with expected and actual scores should be returned. (See Value)
 #'
-#' @returns A vector of numericals corresponding to points assigned to each variable (1 each if no weights given)
+#' @returns
+#'  If `return_expected = FALSE` A vector of numericals corresponding to points assigned to each variable (1 each if no weights given).
+#'  If `return_expected = TRUE` A matrix with colnames as "student", "expected" and "score".
+#'  Complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
+#' 
 #' @examples
 #'   compare_variables("reference.R", "student_assignment.R")
 #'   compare_variables("reference.R", "student_assignment.R", c("var1, var2"), c(2, 1))
@@ -47,14 +54,22 @@ compare_variables <- function(reference, student, variables_to_compare, variable
     }
     
     if (identical(ref_val, student_val)) {
-      unname(variable_weights[var])
+      if (return_expected) {
+        list(student = student_val, expected = ref_val, score = unname(variable_weights[var]))
+      } else {
+        unname(variable_weights[var])
+      }
     } else {
       if (return_expected) {
-        
+        list(student = student_val, expected = ref_val, score = 0)
+      } else {
+        0
       }
-      0
     }
   })
+  if (return_expected) {# cols as student, expected, score
+    comparison_results <- t(comparison_results)
+  }
   return(comparison_results)
 }
 
@@ -90,9 +105,10 @@ eval_quiet <- function(code_lines, envir) {
     )
 }
 
+# strips off rownames and wraps in a list for easy reference
 normalize_df <- function(df) {
-  df <- as.data.frame(df)           # Convert to data frame to remove tibble class
-  row.names(df) <- NULL             # Remove row names for comparison
-  return(df)
+  df <- as.data.frame(df) # remove tibble and similar
+  row.names(df) <- NULL
+  return(list(df))
 }
 
