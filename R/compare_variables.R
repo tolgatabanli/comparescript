@@ -8,9 +8,9 @@
 #'   compare_variables("reference.R", "student_assignment.R")
 #'   compare_variables("reference.R", "student_assignment.R", c("var1, var2"), c(2, 1))
 #' @export
-compare_variables <- function(script1, script2, variables_to_compare, variable_weights) {
-  env1 <- source_script_into_env(script1)
-  env2 <- source_script_into_env(script2)
+compare_variables <- function(reference, student, variables_to_compare, variable_weights) {
+  env1 <- source_script_into_env(reference)
+  env2 <- source_script_into_env(student)
   
   vars1 <- ls(env1)
   vars2 <- ls(env2)
