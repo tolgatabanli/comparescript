@@ -16,7 +16,7 @@ It is built to detect whether variables (e.g., data frames, vectors, lists) are 
   Messages, warnings, and console output from user scripts are suppressed for a clean experience.
 
 - 🚫 **Script preprocessing**  
-  Strips installation-related calls like `install.packages()` before evaluation.
+  Strips off installation-related calls like `install.packages()` and google drive downloads like `drive_download` before evaluation.
   This way, the evaluation of scripts presumes the required packages are already installed.
   If not, an expected error is thrown from the respective library call.
 
