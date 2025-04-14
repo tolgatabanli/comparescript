@@ -27,7 +27,6 @@ compare_variables(
 \value{
 If \code{return_expected = FALSE} A list of numerics corresponding to points assigned to each variable (1 each if no weights given).
 If \code{return_expected = TRUE} A data frame with colnames "student", "expected" and "score";
-complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
 }
 \description{
 compare_variables
