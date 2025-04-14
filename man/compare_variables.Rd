@@ -4,16 +4,35 @@
 \alias{compare_variables}
 \title{compare_variables}
 \usage{
-compare_variables(script1, script2, variables_to_compare, variable_weights)
+compare_variables(
+  reference,
+  student,
+  variables_to_compare,
+  variable_weights,
+  ...,
+  return_expected = FALSE
+)
 }
 \arguments{
-\item{script1}{}
+\item{reference}{A path to a script (reference)}
 
-\item{script2}{}
+\item{student}{A path to another script (to test)}
+
+\item{variables_to_compare}{Optional, selected variables to compare}
+
+\item{variable_weights}{Weights to assess the variables. 1 point by default for each variable.}
+
+\item{return_expected}{If a summary table with expected and actual scores should be returned. (See Value)}
 }
 \value{
-a vector of numericals corresponding to points assigned to each variable (1 each if no weights given)
+If \code{return_expected = FALSE} A vector of numericals corresponding to points assigned to each variable (1 each if no weights given).
+If \code{return_expected = TRUE} A matrix with colnames as "student", "expected" and "score".
+Complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
 }
 \description{
 compare_variables
+}
+\examples{
+  compare_variables("reference.R", "student_assignment.R")
+  compare_variables("reference.R", "student_assignment.R", c("var1, var2"), c(2, 1))
 }
