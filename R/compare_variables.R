@@ -9,7 +9,7 @@
 #' @returns
 #'  If `return_expected = FALSE` A list of numerics corresponding to points assigned to each variable (1 each if no weights given).
 #'  If `return_expected = TRUE` A data frame with colnames "student", "expected" and "score";
-#'  complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
+ # complex data structures are wrapped in lists to enable easy referencing, hence they might lose data.frame class.
 #' 
 #' @examples
 #'   compare_variables("reference.R", "student_assignment.R")
@@ -74,7 +74,6 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   }
   return(comparison_results)
 }
-
 
 # HELPERS ---
 
