@@ -71,6 +71,8 @@ compare_variables <- function(reference, student, variables_to_compare, variable
     df <- data.frame()
     comparison_results <- purrr::reduce(comparison_results, rbind, .init = df)
     rownames(comparison_results) <- variables_to_compare
+  } else {
+    names(comparison_results) <- variables_to_compare
   }
   return(comparison_results)
 }
