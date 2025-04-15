@@ -22,7 +22,7 @@ It is built to detect whether variables (e.g., data frames, vectors, lists) are 
 
 ---
 
-## 🚧 Extensions
+## 🚧 To be considered in the future
 
 - 📦 **Runtime package handling**  
   Currently assumes all packages used in user scripts are pre-installed. A future version may offer dynamic checks or prompts.
@@ -47,8 +47,8 @@ devtools::install_github("tolgatabanli/comparescript")
 library(comparescript)
 ```
 
-## 🔄 Example Workflow
-Assuming we have a solution sheet ("reference.R") and a student assignment ("student.R"), we can compare the values of the variable after a dynamic evaluation of both scripts.
+## Example Workflow
+Assuming we have a solution sheet (`reference.R`) and a student assignment (`student_assignment.R`), we can compare the values of the variable after a dynamic evaluation of both scripts.
 The assessor can also select variables to compare and assign so-called weigths, scores, for each variable.
 If both given, these vectors should be of same length and its elements correspond to each other in the same order.
 ```r
