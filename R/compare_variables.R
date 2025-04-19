@@ -44,8 +44,8 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   
   comparison_results <- lapply(variables_to_compare,
                                function(var) {
-    ref_val <- get(var, envir = ref_env)
-    student_val <- get(var, envir = student_env)
+    ref_val <- rlang::get(var, envir = ref_env)
+    student_val <- rlang::get(var, envir = student_env)
     
     # If like data frame, cast as df and remove row names
     if (inherits(ref_val, "data.frame")){
