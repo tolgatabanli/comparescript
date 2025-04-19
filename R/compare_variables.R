@@ -39,8 +39,8 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   
   if(missing(variables_to_compare)) {
     variables_to_compare <- intersect(vars_ref, vars_student)
-  } else if(!all(variables_to_compare %in% vars_ref) || !all(variables_to_compare %in% vars_student)) {
-    stop("Given variables should exist in both scripts.")
+  } else if(!all(variables_to_compare %in% vars_ref)) {
+    stop("Given variables should exist in reference.")
   }
   
   if(missing(variable_weights)) {
@@ -56,7 +56,7 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   comparison_results <- lapply(variables_to_compare,
                                function(var) {
     ref_val <- rlang::env_get(ref_env, var)
-    student_val <- rlang::env_get(student_env, var)
+    student_val <- rlang::env_get(student_env, var, default = NULL)
     
     # If like data frame, cast as df and remove row names
     if (inherits(ref_val, "data.frame")){
