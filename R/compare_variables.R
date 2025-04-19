@@ -19,9 +19,20 @@ compare_variables <- function(reference, student, variables_to_compare, variable
                               ..., return_expected = FALSE) {
   wrapr::stop_if_dot_args(substitute(list(...)), "compare_variables, dot args")
   
-  
-  ref_env <- source_script_into_env(reference)
-  student_env <- source_script_into_env(student)
+  # Check type of reference and student
+  if(is.character(reference)) {
+    ref_env <- source_script_into_env(reference)
+  } else if(is.environment(reference)) {
+    ref_env <- reference
+  } else {
+    stop("Reference should be either a string showing to an R script,
+         or an environment.")
+  }
+  if(is.character(student)) {
+    student_env <- source_script_into_env(student)
+  } else {
+    stop("Student should be a string showing to an R script.")
+  }
   
   vars_ref <- ls(ref_env)
   vars_student <- ls(student_env)
