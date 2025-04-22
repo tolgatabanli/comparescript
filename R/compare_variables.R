@@ -21,7 +21,7 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   
   # Check type of reference and student
   if(is.character(reference)) {
-    ref_env <- source_script_into_env(reference)
+    ref_env <- env_from_script(reference)
   } else if(is.environment(reference)) {
     ref_env <- reference
   } else {
@@ -29,7 +29,7 @@ compare_variables <- function(reference, student, variables_to_compare, variable
          or an environment.")
   }
   if(is.character(student)) {
-    student_env <- source_script_into_env(student)
+    student_env <- env_from_script(student)
   } else {
     stop("Student should be a string showing to an R script.")
   }
@@ -88,36 +88,6 @@ compare_variables <- function(reference, student, variables_to_compare, variable
   return(comparison_results)
 }
 
-# HELPERS ---
-
-source_script_into_env <- function(path_to_script) {
-  lines <- readLines(path_to_script)
-  
-  # Remove installs
-  disabled_calls <- c("install.packages", "BiocManager::install", "drive_auth", "drive_download")
-  patterns_to_disable <- paste0("^\\s*", gsub("\\.", "\\\\.", disabled_calls), "\\s*\\(")
-  
-  for (pattern in patterns_to_disable) {
-    lines <- gsub(pattern, "# \\0", lines, perl = TRUE)
-  }
-  
-  env <- new.env()
-  eval_quiet(lines, envir = env)
-  return(env)
-}
-
-eval_quiet <- function(code_lines, envir) {
-    suppressMessages(
-      suppressWarnings(
-        invisible(
-          capture.output(
-            eval(parse(text = code_lines), envir = envir),
-            type = "output"
-          )
-        )
-      )
-    )
-}
 
 # strips off rownames and wraps in a list for easy reference
 normalize_df <- function(df) {
